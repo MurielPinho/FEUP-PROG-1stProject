@@ -73,6 +73,10 @@ int main()
             }
         }while(aux != word || i != 0);
 
+        if(aux == word)
+            cout << "You guessed right" << endl;
+        else
+            cout << "Better luck next time" << endl;
         break;
     // case 3:
     //     break;
