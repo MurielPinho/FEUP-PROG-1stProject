@@ -4,6 +4,8 @@
 #include <fstream>
 #include <vector>
 #include <ctime>
+#include <random>
+#include <chrono>
 
 using namespace std;
 using namespace std::regex_constants;
@@ -42,12 +44,12 @@ int main()
     cout << "Option 4: Build a word" << endl;
     cout << "Option 5: Wildcards!" << endl;
 
-    // do
-    // {
-    //     cin >> op;
-    //     if(op>5 || op<1)
-    //         cout << "Please enter a vaid option (between 1 and 5)" << endl;
-    // } while(op>5 || op<1);
+    do
+    {
+        cin >> op;
+        if(op>5 || op<1)
+            cout << "Please enter a vaid option (between 1 and 5)" << endl;
+    } while(op>5 || op<1);
 
     switch (op) {
     case 1:
@@ -145,11 +147,14 @@ bool checkWord(const string word, const vector<string> lista)
 string guessWord(const vector<string> lista)
 {
     string word;
-    int n = rand () % lista.size();
+    int seed, n;
+
+    n = rand () % lista.size();
+    seed = chrono::system_clock::now().time_since_epoch().count();
 
     word = lista.at(n);
 
-    shuffle(word.begin(), word.end());
+    shuffle(word.begin(), word.end(), default_random_engine(seed));
 
     return word;
 }
