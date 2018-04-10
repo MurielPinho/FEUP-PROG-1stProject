@@ -6,23 +6,26 @@
 #include <ctime>
 #include <random>
 #include <chrono>
+#include <cctype>
 
 using namespace std;
 using namespace std::regex_constants;
 
+void strupper(string &s);
 int playwords(string pattern);
 bool checkWord(const string word, const vector<string> lista);
-string guessWord(const vector<string> lista);
+string guessWord(const vector<string> lista, const int num);
 void searchWord(string letters, const vector<string> lista);
 int main()
 {
-    int op, a, i = 3;
+    int op, a, n, i = 3;
     vector<string> dic;
-    string word, file4read, line, aux;
+    string word, file4read, line, aux, aux2;
     ifstream infile;
 
     srand((unsigned int)time(0));
 //Leitura do arquivo
+    cout << "Input file name: " << endl;
     getline(cin, file4read);
     infile.open(file4read);
     if (infile.fail())
@@ -47,39 +50,47 @@ int main()
     cout << "Option 4: Build a word" << endl;
     cout << "Option 5: Wildcards!" << endl;
 
-
     do
     {
         cin >> op;
         if(op>5 || op<1)
             cout << "Please enter a vaid option (between 1 and 5)" << endl;
     } while(op>5 || op<1);
+//limpando o buffer
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     switch (op)
     {
     case 1:
         getline(cin, word);
+        strupper(word);
         if(checkWord(word, dic))
             cout << "Word exists!" << endl;
         else
             cout << "Word does not exists" << endl;
         break;
     case 2:
-        aux = guessWord(dic);
+        n = rand () % dic.size();
+        aux = guessWord(dic, n);
+        aux2 = dic.at(n);
+        cout << "Form a word with: "<< aux << endl;
         do
         {
             getline(cin, word);
-            if(aux != word)
+            if(aux2 != word)
             {
                 i--;
                 cout << "Try Again(" << i << " chances left!)" << endl;
             }
-        }while(aux != word || i != 0);
+            else
+                break;
+        }while(i > 0);
 
-        if(aux == word)
-            cout << "You guessed right" << endl;
+        if(aux2 == word)
+            cout << "Winner Winner, Chicken Dinner!!!" << endl;
         else
-            cout << "Better luck next time" << endl;
+            cout << "Better luck next time, Loser!" << endl;
         break;
     case 3:
         cout << "Provide the set of letters: ";
@@ -90,7 +101,7 @@ int main()
     //     break;
     case 5:
         cout << "Insert Wildcard: ";
-        getline(cin, word);
+        //getline(cin, word);
         if((a = (playwords(word)) < 0))
             cout << "Error opening file" << endl;
         else if(a==0)
@@ -151,15 +162,14 @@ bool checkWord(const string word, const vector<string> lista)
     return false;
 }
 
-string guessWord(const vector<string> lista)
+string guessWord(const vector<string> lista, const int num)
 {
     string word;
-    int seed, n;
+    int seed;
 
-    n = rand () % lista.size();
     seed = chrono::system_clock::now().time_since_epoch().count();
 
-    word = lista.at(n);
+    word = lista.at(num);
 
     shuffle(word.begin(), word.end(), default_random_engine(seed));
 
@@ -182,7 +192,6 @@ void searchWord(string letters, const vector<string> lista)
                     {
                         flag = 1;
                         k = letters.size();
-                        //break;
                     }
                     else
                         flag = 0;
@@ -191,5 +200,13 @@ void searchWord(string letters, const vector<string> lista)
         }
         if(flag==1)
             cout << lista.at(i) << endl;
+    }
+}
+
+void strupper(string &s)
+{
+    for(size_t i; i < s.size(); i++)
+    {
+        isupper(s.at(i));
     }
 }
