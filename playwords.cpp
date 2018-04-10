@@ -13,11 +13,12 @@ using namespace std::regex_constants;
 int playwords(string pattern);
 bool checkWord(const string word, const vector<string> lista);
 string guessWord(const vector<string> lista);
+void searchWord(string letters, const vector<string> lista);
 int main()
 {
-    int op;
+    int op, a, i = 3;
     vector<string> dic;
-    string word, file4read, line;
+    string word, file4read, line, aux;
     ifstream infile;
 
     srand((unsigned int)time(0));
@@ -35,6 +36,8 @@ int main()
         getline(infile, line);
         dic.push_back(line);
     }
+    infile.close();
+
     cout << "PLAYWORDS" << endl;
     cout << "=======================================" << endl;
     cout << "Choose your option: " << endl;
@@ -44,6 +47,7 @@ int main()
     cout << "Option 4: Build a word" << endl;
     cout << "Option 5: Wildcards!" << endl;
 
+
     do
     {
         cin >> op;
@@ -51,7 +55,8 @@ int main()
             cout << "Please enter a vaid option (between 1 and 5)" << endl;
     } while(op>5 || op<1);
 
-    switch (op) {
+    switch (op)
+    {
     case 1:
         getline(cin, word);
         if(checkWord(word, dic))
@@ -60,12 +65,10 @@ int main()
             cout << "Word does not exists" << endl;
         break;
     case 2:
-        string aux;
-        int i = 3;
         aux = guessWord(dic);
         do
         {
-            getine(cin, word);
+            getline(cin, word);
             if(aux != word)
             {
                 i--;
@@ -78,25 +81,25 @@ int main()
         else
             cout << "Better luck next time" << endl;
         break;
-    // case 3:
-    //     break;
+    case 3:
+        cout << "Provide the set of letters: ";
+        getline(cin, word);
+        searchWord(word, dic);
+        break;
     // case 4:
     //     break;
     case 5:
-        int aux;
         cout << "Insert Wildcard: ";
         getline(cin, word);
-        if((aux = (playwords(word)) < 0))
+        if((a = (playwords(word)) < 0))
             cout << "Error opening file" << endl;
-        else if(aux==0)
+        else if(a==0)
             cout << "No matching words" << endl;
         break;
     default:
         break;
-
     }
 
-    infile.close();
     return 0;
 }
 //Funcoes
@@ -161,4 +164,32 @@ string guessWord(const vector<string> lista)
     shuffle(word.begin(), word.end(), default_random_engine(seed));
 
     return word;
+}
+
+void searchWord(string letters, const vector<string> lista)
+{
+    int flag;
+
+    for (size_t i = 0; i < lista.size(); i++)
+    {
+        if (lista.at(i).size() >= letters.size())
+        {
+            for (size_t j = 0; j < lista.at(i).size(); j++) //verifica letras da palavra do vetor
+            {
+                for (size_t k = 0; k < letters.size(); k++) //verifica letras fornecidas
+                {
+                    if(letters.at(k)==lista.at(i).at(j))
+                    {
+                        flag = 1;
+                        k = letters.size();
+                        //break;
+                    }
+                    else
+                        flag = 0;
+                }
+            }
+        }
+        if(flag==1)
+            cout << lista.at(i) << endl;
+    }
 }
