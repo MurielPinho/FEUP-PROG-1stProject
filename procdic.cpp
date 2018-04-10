@@ -14,19 +14,22 @@ bool duplicate(const string word, const vector<string> lista);
 int main()
 {
 								vector<string> words;
-								string file4read, file4write = "Output.txt", line;
+								string file4read, file4write, line;
 								ifstream infile;
 								ofstream outfile;
 								char *tok = NULL, *write = NULL;
 								int dup = 0, contador[26] = {0};
 								regex reg ("[A-Z ;'-]+");
 								regex reg2 (".+[-'].*");
-
+// Impressao interface inicial
 								cout << "EXTRACTION OF WORD LIST FROM DICTIONARY" << endl;
 								cout << "=======================================" << endl;
 								cout << "\nDictionary file ? ";
 								getline(cin, file4read);
-
+								cout << "Word list file ? ";
+								getline(cin, file4write);
+								cout << "\nExtracting simple word files from file " << file4read << "," << endl;
+								cout << "beginning with letter ..." << endl << endl;
 //Abertura de arquivos
 								infile.open(file4read);
 								outfile.open(file4write);
@@ -68,7 +71,7 @@ int main()
 																								}
 																}
 								}
-//ordenando o vetor
+//Ordenando o vetor
 								sort(words.begin(), words.end());
 //Transfere vetor para o arquivo
 								for (size_t i = 0; i < words.size(); i++)
@@ -87,9 +90,17 @@ int main()
 																								printer(contador[i], i);
 																}
 								}
+								cout << "\nNumber of simple words = " << words.size()+ dup << endl;
+								cout << "\nSorting words ..." << endl;
+								cout << "\nRemoving duplicate words ..." << endl;
+								cout << "\nNumber of non-duplicate simple words = " << words.size() << endl;
+								cout << "\nSaving words into file " << file4write << " ... "<< endl;
+								cout << "\nEnd of processing." << endl << endl;
+
+
 								return 0;
 }
-
+//Contagem do numero de palavras
 void counter(int v[], int n, char c)
 {
 								switch (c)
@@ -174,6 +185,7 @@ void counter(int v[], int n, char c)
 																break;
 								}
 }
+//Impressao dos pontos a cada 100 palavras
 void printer(int qtd, int letter)
 {
 
