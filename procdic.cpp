@@ -20,7 +20,7 @@ int main()
 								char *tok = NULL, *write = NULL;
 								int dup = 0, contador[26] = {0};
 								regex reg ("[A-Z ;'-]+");
-								regex reg2 (".+[-'].*");
+								regex reg2 (".*[-'].*");
 // Impressao interface inicial
 								cout << "EXTRACTION OF WORD LIST FROM DICTIONARY" << endl;
 								cout << "=======================================" << endl;
@@ -90,7 +90,7 @@ int main()
 																								printer(contador[i], i);
 																}
 								}
-								cout << "\nNumber of simple words = " << words.size()+ dup << endl;
+								cout << "\nNumber of simple words = " << words.size()+ dup  << endl;
 								cout << "\nSorting words ..." << endl;
 								cout << "\nRemoving duplicate words ..." << endl;
 								cout << "\nNumber of non-duplicate simple words = " << words.size() << endl;
