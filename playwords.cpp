@@ -18,13 +18,16 @@ string guessWord(const vector<string> lista, const int num);
 void searchWord(string letters, const vector<string> lista);
 int main()
 {
+
     int op, a, n, i = 3;
     vector<string> dic;
     string word, file4read, line, aux, aux2;
     ifstream infile;
 
-    srand((unsigned int)time(0));
+
+        srand((unsigned int)time(0));
 //Leitura do arquivo
+
     cout << "Input file name: " << endl;
     getline(cin, file4read);
     infile.open(file4read);
@@ -112,58 +115,60 @@ int main()
     }
 
     return 0;
+
 }
 //Funcoes
 int playwords(string pattern)
 {
-    string new_pattern = "^" + pattern + "$",
-         line;
-    regex reg;
-    ifstream file;
-    int flag;
-    for (size_t i = 0; i < new_pattern.length(); i++)
-    {
-        if (new_pattern.at(i) == '?')
+        string new_pattern = "^" + pattern + "$",
+               line;
+        regex reg;
+        ifstream file;
+        int flag;
+        for (size_t i = 0; i < new_pattern.length(); i++)
         {
-          new_pattern.replace(i, 1, ".");
+                if (new_pattern.at(i) == '?')
+                {
+                        new_pattern.replace(i, 1, ".");
+                }
+                else if(new_pattern.at(i) == '*')
+                {
+                        new_pattern.replace(i, 1, ".*");
+                        i++;
+                }
         }
-        else if(new_pattern.at(i) == '*')
+        reg.assign(new_pattern, icase);
+
+        file.open("Output.txt");
+        if(file.fail())
+                return -1;
+
+        while (!file.eof())
         {
-          new_pattern.replace(i, 1, ".*");
-          i++;
+                getline(file, line);
+
+                if(regex_match(line, reg))
+                {
+                        cout << line << endl;
+                        flag++;
+                }
         }
-    }
-    reg.assign(new_pattern, icase);
-
-    file.open("Output.txt");
-    if(file.fail())
-      return -1;
-
-    while (!file.eof())
-    {
-      getline(file, line);
-
-      if(regex_match(line, reg))
-      {
-          cout << line << endl;
-          flag++;
-      }
-    }
-    return flag;
+        return flag;
 }
 
 bool checkWord(const string word, const vector<string> lista)
 {
-    for (size_t i = 0; i < lista.size(); i++)
-    {
-        if (lista.at(i)==word)
-            return true;
-    }
-    return false;
+        for (size_t i = 0; i < lista.size(); i++)
+        {
+                if (lista.at(i)==word)
+                        return true;
+        }
+        return false;
 }
 
 string guessWord(const vector<string> lista, const int num)
 {
+
     string word;
     int seed;
 
@@ -171,9 +176,10 @@ string guessWord(const vector<string> lista, const int num)
 
     word = lista.at(num);
 
-    shuffle(word.begin(), word.end(), default_random_engine(seed));
 
-    return word;
+        shuffle(word.begin(), word.end(), default_random_engine(seed));
+
+        return word;
 }
 
 void searchWord(string letters, const vector<string> lista)
