@@ -10,20 +10,30 @@
 
 using namespace std;
 using namespace std::regex_constants;
-
-void strupper(string &s);
-int playwords(string pattern);
+//Escopo das Funcoes
+//================================================================
+//Funcao que converte toda uma string para letras maiusculas
+void strUpper(string &s);
+//================================================================
+//Funcao que procura palavras de acordo com a Wildcard
+int playwords(string pattern, const vector<string> lista);
+//================================================================
+//Funcao que verifica a existencia de uma palavra no vetor
 bool checkWord(const string word, const vector<string> lista);
+//================================================================
+//Funcao procura uma palavra aleatoria e embaralha suas letras
 string guessWord(const vector<string> lista, const int num);
+//================================================================
+//Funcao que procura palavras a partir de um conjunto de letras
 void searchWord(string letters, const vector<string> lista);
+
 int main()
 {
-    int op, a, n, i = 3;
+    int op, a, n1, n2, i = 3;
     vector<string> dic;
     string word, file4read, line, aux, aux2;
     ifstream infile;
 
-    srand((unsigned int)time(0));
 //Leitura do arquivo
     cout << "Input file name: " << endl;
     getline(cin, file4read);
@@ -33,7 +43,7 @@ int main()
 		cerr << "Error opening file: " << file4read << endl;
 		exit(1);
 	}
-//Transferencia para o vetor
+//Transferencia de dados para o vetor
     while(!infile.eof())
 	{
         getline(infile, line);
@@ -41,6 +51,7 @@ int main()
     }
     infile.close();
 
+//Interface
     cout << "PLAYWORDS" << endl;
     cout << "=======================================" << endl;
     cout << "Choose your option: " << endl;
@@ -50,34 +61,41 @@ int main()
     cout << "Option 4: Build a word" << endl;
     cout << "Option 5: Wildcards!" << endl;
 
+//Verificação do input das opcoes
     do
     {
         cin >> op;
         if(op>5 || op<1)
             cout << "Please enter a vaid option (between 1 and 5)" << endl;
     } while(op>5 || op<1);
-//limpando o buffer
+
+//Limpa o buffer
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+//Seletor da operacao
     switch (op)
     {
+    //Verifica se palavra existe
     case 1:
         getline(cin, word);
-        strupper(word);
+        strUpper(word);
         if(checkWord(word, dic))
             cout << "Word exists!" << endl;
         else
             cout << "Word does not exists" << endl;
         break;
+    //Escolhe uma palavra aleatoria, embaralha as letras e pede ao usuario para adivinhar
     case 2:
-        n = rand () % dic.size();
-        aux = guessWord(dic, n);
-        aux2 = dic.at(n);
+        srand((unsigned int)time(0));
+        n1 = rand () % dic.size();
+        aux = guessWord(dic, n1);
+        aux2 = dic.at(n1);
         cout << "Form a word with: "<< aux << endl;
         do
         {
             getline(cin, word);
+            strUpper(word);
             if(aux2 != word)
             {
                 i--;
@@ -92,19 +110,35 @@ int main()
         else
             cout << "Better luck next time, Loser!" << endl;
         break;
+    //Apresentar palavras a partir de um conjunto de letras fornecidos pelo usuario
     case 3:
         cout << "Provide the set of letters: ";
         getline(cin, word);
+        strUpper(word);
         searchWord(word, dic);
         break;
-    // case 4:
-    //     break;
+    //Gerar um conjunto de letras aleatorios e pedir ao usuario para formar uma palavra
+    case 4:
+        srand((unsigned int)time(0));
+        n1 = rand () % dic.size();
+        srand((unsigned int)time(0));
+        n2 = rand () % dic.size() - 1;
+        aux = guessWord(dic, n1);
+        aux2 = guessWord(dic, n2);
+        cout << "Build a word using: " << aux + aux2 << endl;
+        getline(cin, word);
+        strUpper(word);
+        if(checkWord(word, dic))
+            cout << "Word belongs!" << endl;
+        else
+            cout << "Word does not belong" << endl;
+        break;
+    //Ler e verificar Wildcards
     case 5:
         cout << "Insert Wildcard: ";
-        //getline(cin, word);
-        if((a = (playwords(word)) < 0))
-            cout << "Error opening file" << endl;
-        else if(a==0)
+        getline(cin, word);
+        a = playwords(word, dic);
+        if(a==0)
             cout << "No matching words" << endl;
         break;
     default:
@@ -114,13 +148,12 @@ int main()
     return 0;
 }
 //Funcoes
-int playwords(string pattern)
+int playwords(string pattern, const vector<string> lista)
 {
     string new_pattern = "^" + pattern + "$",
          line;
     regex reg;
-    ifstream file;
-    int flag;
+    int flag = 0;
     for (size_t i = 0; i < new_pattern.length(); i++)
     {
         if (new_pattern.at(i) == '?')
@@ -135,13 +168,9 @@ int playwords(string pattern)
     }
     reg.assign(new_pattern, icase);
 
-    file.open("Output.txt");
-    if(file.fail())
-      return -1;
-
-    while (!file.eof())
+    for (size_t i = 0; i < lista.size(); i++)
     {
-      getline(file, line);
+      line = lista.at(i);
 
       if(regex_match(line, reg))
       {
@@ -178,7 +207,8 @@ string guessWord(const vector<string> lista, const int num)
 
 void searchWord(string letters, const vector<string> lista)
 {
-    int flag;
+    int flag = 0;
+    vector<string> aux;
 
     for (size_t i = 0; i < lista.size(); i++)
     {
@@ -196,19 +226,31 @@ void searchWord(string letters, const vector<string> lista)
                     else
                         flag = 0;
                 }
+                if(flag == 0)
+                {
+                    j = lista.at(i).size();
+                }
             }
+            if(flag!=0)
+            {
+                aux.push_back(lista.at(i));
+            }
+
         }
-        if(flag==1)
-            cout << lista.at(i) << endl;
+    }
+    for (size_t i = 0; i < aux.size(); i++)
+    {
+        cout << aux.at(i) << endl;
     }
 }
 
-void strupper(string &s)
+void strUpper(string &s)
 {
-
-    for(size_t i; i < s.size(); i++)
+    for(size_t i = 0; i < s.size(); i++)
     {
-        if(s.at(i)<='z' && s.at(i)<='a')
-            cout << s.at(i) - 32 << endl;
+        if(islower(s.at(i)))
+        {
+            s.at(i) = toupper(s.at(i));
+        }
     }
 }
