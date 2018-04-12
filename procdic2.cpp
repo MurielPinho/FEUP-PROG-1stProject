@@ -8,10 +8,17 @@
 using namespace std;
 
 //Funcoes
+//==============================================================
+//Contagem do numero de palavras
 void counter(int v[], int n, char c);
-void points(int v[], int n, char c);
+//==============================================================
+//Impressao de ponto a cada 100 palavras
+void dots(int v[], int n, char c);
+//==============================================================
+//Converter letra em numero
 int letter(char c);
-void printer(int qtd, int letter);
+//==============================================================
+//Verificar Duplicadas
 bool duplicate(const string word, const vector<string> lista);
 
 int main()
@@ -68,7 +75,7 @@ int main()
 																																								//Contagem das palavras
 																																								counter(contador, 25, tok[0]);
 																																								//Impressao de ponto a cada 100 palavras
-																																								points(contador, 25, tok[0]);
+																																								dots(contador, 25, tok[0]);
 																																								//Separação de duplicadas
 																																								if(!duplicate(tok, words))
 																																																words.push_back(tok);
@@ -185,227 +192,6 @@ void counter(int v[], int n, char c)
 																break;
 								}
 }
-//Impressao dos pontos a cada 100 palavras
-void printer(int qtd, int letter)
-{
-
-								switch (letter)
-								{
-								case 0:
-																cout << "A" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-
-																}
-																cout << endl;
-																break;
-								case 1:
-																cout << "B" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 2:
-																cout << "C" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 3:
-																cout << "D" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 4:
-																cout << "E" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 5:
-																cout << "F" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 6:
-																cout << "G" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 7:
-																cout << "H" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 8:
-																cout << "I" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 9:
-																cout << "J" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 10:
-																cout << "K" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 11:
-																cout << "L" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 12:
-																cout << "M" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 13:
-																cout << "N" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 14:
-																cout << "O" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 15:
-																cout << "P" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 16:
-																cout << "Q" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 17:
-																cout << "R" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 18:
-																cout << "S" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 19:
-																cout << "T" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 20:
-																cout << "U" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-
-																break;
-								case 21:
-																cout << "V" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 22:
-																cout << "W" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-
-																break;
-								case 23:
-																cout << "X" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-
-																break;
-								case 24:
-																cout << "Y" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-																}
-																cout << endl;
-																break;
-								case 25:
-																cout << "Z" << endl;
-																for (int i = 0; i < qtd / 100; i++) {
-
-																								cout << ".";
-
-																}
-																cout << endl;
-																break;
-								}
-}
 //Verificar Duplicadas
 bool duplicate(const string word, const vector<string> lista)
 {
@@ -417,7 +203,7 @@ bool duplicate(const string word, const vector<string> lista)
 								return false;
 }
 //Impressao de ponto a cada 100 palavras
-void points(int v[], int n, char c)
+void dots(int v[], int n, char c)
 {
 								if (v[letter(c)]== 99) {
 																cout << endl << c << endl;
