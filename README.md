@@ -1,1 +1,1 @@
-# First part of the Project of PROG course - MIEIC, FEUP
+# First Project of PROG course - MIEIC, FEUP
